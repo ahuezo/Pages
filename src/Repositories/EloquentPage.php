@@ -26,10 +26,10 @@ class EloquentPage extends EloquentRepository
     {
         $repository = $this->with($with);
         if (!Request::input('preview')) {
-            $repository->where(column('status'), '1');
+            $repository->where('status', '1');
         }
 
-        return $repository->findBy(column('uri'), $uri);
+        return $repository->findBy('uri', $uri);
     }
 
     /**
@@ -48,14 +48,14 @@ class EloquentPage extends EloquentRepository
             }
         }
 
-        $repository = Pages::where(column('uri'), '!=', $uri);
+        $repository = Pages::where('uri', '!=', $uri);
 
         if (!$all) {
-            $repository->where(column('status'), '1');
+            $repository->where('status', '1');
         }
 
         $models = $repository->orderBy('position', 'asc')
-            ->findWhere([column('uri'), 'LIKE', $uri.'%'])
+            ->findWhere(['uri', 'LIKE', $uri.'%'])
             ->nest();
 
         return $models;
